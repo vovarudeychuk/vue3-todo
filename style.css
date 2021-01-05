@@ -1,0 +1,42 @@
+.line-through {
+    text-decoration: line-through;
+}
+
+.editable-s {
+    outline: none;
+    outline-offset: 5px;
+  
+}
+
+.editable-s:focus {
+    outline-style:initial;
+    outline-color: #1de9b6;
+    position: inherit;
+    color: firebrick;
+    padding: 0.1rem .3rem 0 .1rem;
+    transition: 0.2s all ease; 
+    font-size: 1.2rem;
+}
+
+
+.error-color {
+    color: firebrick
+}
+
+.scale {
+    font-weight: lighter;
+    font-size: 1.4rem;
+    display: inline-block;
+    margin: 0 9px;
+    color: darkslategray;
+}
+
+.number {
+    color: #d32f2f;
+    font-weight: 600;
+    font-size: 12px;
+} 
+
+.link-hover:hover {
+    font-size: 1.8rem;
+}

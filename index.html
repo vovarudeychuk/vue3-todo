@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <link rel="stylesheet" href="./style.css">
+
+    <title>Vue Todo</title>
+  </head>
+  <body>
+    <div class="container" id="app">
+      <div class="row">
+        <div class="input-field col s12">
+          <input
+            v-model="inputValue"
+            :placeholder="placeholderApp"
+            @keypress.enter="addTodo"
+            type="text"
+          />
+          <span
+            style="position: absolute"
+            v-if="inputValue.length <= minLiterals -1 && inputValue.length >= minLiterals - 1"
+            class="helper-text "
+            data-error="wrong"
+            data-success="right"
+           >
+           You must have min <span class="number">{{ minLiterals }} </span> simbols in task name!
+          </span>
+
+          <a
+            :class="{ disabled: inputValue === '' || inputValue.length <= minLiterals - 1}"
+            @click="addTodo"
+            class="waves-effect waves-light btn-small right"
+          >
+            <i class="material-icons left">add_task</i>
+            Add
+            
+          </a>
+        </div>
+
+        <ul v-if="tasks.length !== 0" class="collection with-header">
+          <li class="collection-header">
+         <small>
+             You have 
+             <span class="number">{{ tasks.length }}</span> tasks 
+
+             <span class="scale">|</span> 
+             Finiched: 
+             <span class="number">{{ tasks.filter( f => f.checked).length }} </span>
+
+             <span class="scale">|</span> 
+             In Progress: 
+             <span class="number">{{ tasks.filter( f => !f.checked).length }}</span>
+         </small>
+
+          </li>
+
+          <li v-for="(task, i) in tasks" :key="task.id" class="collection-item">
+              <div >
+            <label>
+                <input 
+                    @click="task.checked = !task.checked" 
+                    :disabled="task.updating" 
+                    :checked="task.checked"
+                    type="checkbox"  
+                    class="filled-in" />
+                <span :class="task.checked ? 'line-through' : '' " >
+                    <div 
+                        v-if="!task.checked && task.updating" 
+                        @focusout="task.updating ? onSave($event, task.id): null" 
+                        @keypress.enter="onSave($event, task.id)" 
+                        :ref="'field-'+task.id" :contenteditable="task.updating"  
+                        class="editable-s"
+                    > 
+                        {{ task.name }}
+                    </div>
+                    <div v-else>{{ task.name }}</div>
+                </span>
+            </label>    
+             
+            <a @click="removeTodo(i)" href="#!" class="secondary-content right">
+                <i class="material-icons  link-hover">delete</i>
+            </a>
+            <a v-if="!task.checked && !task.updating" @click="renameTodo(task.id)" href="#!" class="secondary-content right">
+                <i class="material-icons link-hover">
+                    create
+                </i>
+            </a>    
+            <a style="color: firebrick;" v-if="!task.checked && task.updating" @click="onSave(event, task.id)" href="#!" class="secondary-content right">
+                <i class="material-icons link-hover">
+                    save
+                </i>
+            </a>   
+        </div>       
+          </li>
+        </ul>
+            <h5 v-else>You have no tasks</h5>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
