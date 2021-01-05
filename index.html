@@ -32,7 +32,7 @@
           />
           <span
             style="position: absolute"
-            v-if="inputValue.length <= minLiterals -1 && inputValue.length >= minLiterals - 1"
+            v-if="inputValue.length >= 1 && inputValue.length <= minLiterals - 1"
             class="helper-text"
             data-error="wrong"
             data-success="right"
