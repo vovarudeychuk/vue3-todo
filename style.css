@@ -18,7 +18,6 @@
     font-size: 1.2rem;
 }
 
-
 .error-color {
     color: firebrick
 }
@@ -39,4 +38,8 @@
 
 .link-hover:hover {
     font-size: 1.8rem;
+}
+
+.no-data {
+    color: #9e9e9e;
 }

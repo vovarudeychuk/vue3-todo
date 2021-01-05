@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -13,7 +15,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
 
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
 
     <title>Vue Todo</title>
   </head>
@@ -26,15 +28,17 @@
             :placeholder="placeholderApp"
             @keypress.enter="addTodo"
             type="text"
+            ref="inputRef"
           />
           <span
             style="position: absolute"
             v-if="inputValue.length <= minLiterals -1 && inputValue.length >= minLiterals - 1"
-            class="helper-text "
+            class="helper-text"
             data-error="wrong"
             data-success="right"
-           >
-           You must have min <span class="number">{{ minLiterals }} </span> simbols in task name!
+          >
+            You must have min
+            <span class="number">{{ minLiterals }} </span> simbols in task name!
           </span>
 
           <a
@@ -44,67 +48,86 @@
           >
             <i class="material-icons left">add_task</i>
             Add
-            
           </a>
         </div>
 
         <ul v-if="tasks.length !== 0" class="collection with-header">
           <li class="collection-header">
-         <small>
-             You have 
-             <span class="number">{{ tasks.length }}</span> tasks 
+            <small>
+              You have
+              <span class="number">{{ tasks.length }}</span> tasks
 
-             <span class="scale">|</span> 
-             Finiched: 
-             <span class="number">{{ tasks.filter( f => f.checked).length }} </span>
+              <span class="scale">|</span>
+              Finiched:
+              <span class="number"
+                >{{ tasks.filter( f => f.checked).length }}
+              </span>
 
-             <span class="scale">|</span> 
-             In Progress: 
-             <span class="number">{{ tasks.filter( f => !f.checked).length }}</span>
-         </small>
-
+              <span class="scale">|</span>
+              In Progress:
+              <span class="number"
+                >{{ tasks.filter( f => !f.checked).length }}</span
+              >
+            </small>
           </li>
 
           <li v-for="(task, i) in tasks" :key="task.id" class="collection-item">
-              <div >
-            <label>
-                <input 
-                    @click="task.checked = !task.checked" 
-                    :disabled="task.updating" 
-                    :checked="task.checked"
-                    type="checkbox"  
-                    class="filled-in" />
-                <span :class="task.checked ? 'line-through' : '' " >
-                    <div 
-                        v-if="!task.checked && task.updating" 
-                        @focusout="task.updating ? onSave($event, task.id): null" 
-                        @keypress.enter="onSave($event, task.id)" 
-                        :ref="'field-'+task.id" :contenteditable="task.updating"  
-                        class="editable-s"
-                    > 
-                        {{ task.name }}
-                    </div>
-                    <div v-else>{{ task.name }}</div>
+            <div>
+              <label>
+                <input
+                  @click="task.checked = !task.checked"
+                  :disabled="task.updating"
+                  :checked="task.checked"
+                  type="checkbox"
+                  class="filled-in"
+                />
+                <span :class="task.checked ? 'line-through' : '' ">
+                  <div
+                    v-if="!task.checked && task.updating"
+                    @focusout="task.updating ? onSave($event, task.id): null"
+                    @keypress.enter="onSave($event, task.id)"
+                    :ref="'field-'+task.id"
+                    :contenteditable="task.updating"
+                    class="editable-s"
+                  >
+                    {{ task.name }}
+                  </div>
+                  <div v-else>{{ task.name }}</div>
                 </span>
-            </label>    
-             
-            <a @click="removeTodo(i)" href="#!" class="secondary-content right">
-                <i class="material-icons  link-hover">delete</i>
-            </a>
-            <a v-if="!task.checked && !task.updating" @click="renameTodo(task.id)" href="#!" class="secondary-content right">
-                <i class="material-icons link-hover">
-                    create
-                </i>
-            </a>    
-            <a style="color: firebrick;" v-if="!task.checked && task.updating" @click="onSave(event, task.id)" href="#!" class="secondary-content right">
-                <i class="material-icons link-hover">
-                    save
-                </i>
-            </a>   
-        </div>       
+              </label>
+
+              <a
+                @click="removeTodo(i)"
+                href="#!"
+                class="secondary-content right"
+              >
+                <i class="material-icons link-hover">delete</i>
+              </a>
+              <a
+                v-if="!task.checked && !task.updating"
+                @click="renameTodo(task.id)"
+                href="#!"
+                class="secondary-content right"
+              >
+                <i class="material-icons link-hover"> create </i>
+              </a>
+              <a
+                style="color: firebrick"
+                v-if="!task.checked && task.updating"
+                @click="onSave(event, task.id)"
+                href="#!"
+                class="secondary-content right"
+              >
+                <i class="material-icons link-hover"> save </i>
+              </a>
+            </div>
           </li>
         </ul>
-            <h5 v-else>You have no tasks</h5>
+        <h3 v-else class="center-align no-data">
+          <i style="font-size: 6rem" class="material-icons">error_outline</i>
+          <br />
+          You have no tasks
+        </h3>
       </div>
     </div>
 

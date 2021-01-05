@@ -1,25 +1,28 @@
 const App = {
   data: () => ({
     title: 'To-do',
-    placeholderApp: 'Type somesing',
+    placeholderApp: 'Type to create new task!',
     inputValue: '',
     minLiterals: 6,
     tasks: [
-      { name: 'first task', updating: false, checked: true, id: 3231 },
-      { name: 'task', updating: false, checked: false, id: 22323 },
+      { name: 'First task', updating: false, checked: true, id: 3231 },
+      { name: 'Chuck Norris task', updating: false, checked: false, id: 22323 },
     ],
     isDone: { all: false, isFinish: false },
   }),
+  mounted() {
+    this.$refs['inputRef'].focus()
+  },
   methods: {
-    addTodo(event) {
+    addTodo() {
       if (this.inputValue.length >= this.minLiterals) {
         this.tasks.push({
-          name: this.capitalize(this.inputValue),
+          name: this.capitalize(this.inputValue).trim(),
           checked: false,
           id: Date.now(),
         })
         this.inputValue = ''
-        event.target.offsetParent.childNodes[0].focus()
+        this.$refs['inputRef'].focus()
       }
     },
     removeTodo(i) {
@@ -28,7 +31,6 @@ const App = {
     renameTodo(i) {
       this.tasks.filter((a) => a.id === i)[0].updating = true
       this.$nextTick(() => {
-        // .focus()
         this.moveCursorToEnd(this.$refs['field-' + i])
       })
     },
