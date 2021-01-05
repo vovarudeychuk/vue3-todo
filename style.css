@@ -43,3 +43,7 @@
 .no-data {
     color: #9e9e9e;
 }
+
+[v-cloak] {
+    display: none;
+  }
