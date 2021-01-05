@@ -16,7 +16,7 @@ const App = {
   methods: {
     addTodo() {
       if (this.inputValue.length >= this.minLiterals) {
-        this.tasks.push({
+        this.tasks.unshift({
           name: this.capitalize(this.inputValue).trim(),
           checked: false,
           id: Date.now(),
