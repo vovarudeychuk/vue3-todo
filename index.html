@@ -38,7 +38,7 @@
             data-success="right"
           >
             You must have min
-            <span class="number">{{ minLiterals }} </span> simbols in task! For
+            <span class="number">{{ minLiterals }} </span> symbols in task! For
             now you need
             <span class="number">{{ minLiterals - inputValue.length }}</span>
           </span>
@@ -60,7 +60,7 @@
               <span class="number">{{ tasks.length }}</span> tasks
 
               <span class="scale">|</span>
-              Finiched:
+              Finished:
               <span class="number"
                 >{{ tasks.filter( f => f.checked).length }}
               </span>
@@ -70,6 +70,14 @@
               <span class="number"
                 >{{ tasks.filter( f => !f.checked).length }}</span
               >
+
+              <span class="scale">|</span>
+
+              <span v-if="taskLength < minLiterals">
+                {{this.shortWorning}}
+                <span class="number">{{minLiterals}}</span> symbols!
+                <i class="material-icons error-icon">error_outline</i>
+              </span>
             </small>
           </li>
 
@@ -81,9 +89,12 @@
                   :disabled="task.updating"
                   :checked="task.checked"
                   type="checkbox"
-                  class="filled-in"
+                  class="filled-in checkbox-input"
                 />
-                <span :class="task.checked ? 'line-through' : '' ">
+                <span
+                  class="checkbox-span"
+                  :class="task.checked ? 'line-through' : '' "
+                >
                   <div
                     v-if="!task.checked && task.updating"
                     @focusout="task.updating ? onSave($event, task.id): null"
@@ -94,6 +105,7 @@
                   >
                     {{ task.name }}
                   </div>
+
                   <div v-else>{{ task.name }}</div>
                 </span>
               </label>

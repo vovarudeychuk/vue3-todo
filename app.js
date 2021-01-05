@@ -4,6 +4,8 @@ const App = {
     placeholderApp: 'Type to create new task!',
     inputValue: '',
     minLiterals: 6,
+    shortWorning: '',
+    taskLength: 6,
     tasks: [
       { name: 'First task', updating: false, checked: true, id: 3231 },
       { name: 'Chuck Norris task', updating: false, checked: false, id: 22323 },
@@ -35,15 +37,21 @@ const App = {
       })
     },
     onSave(event, i) {
-      this.tasks.filter((a) => a.id === i)[0].updating = false
       if (event) {
         event.preventDefault()
         event.target.blur()
       }
-
-      this.tasks.filter((a) => a.id === i)[0].name = this.capitalize(
-        this.$refs['field-' + i].outerText
-      ).trim()
+      this.taskLength = (this.$refs['field-' + i].outerText).length
+      
+      if(this.taskLength < this.minLiterals) {
+          this.shortWorning = "Task mast have min "
+          event.target.focus()
+      }else if(this.taskLength >= this.minLiterals) {
+        this.tasks.filter((a) => a.id === i)[0].updating = false
+        this.tasks.filter((a) => a.id === i)[0].name = this.capitalize(
+            this.$refs['field-' + i].outerText
+          ).trim()
+      }
     },
     moveCursorToEnd(el) {
       el.focus()
