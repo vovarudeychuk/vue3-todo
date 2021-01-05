@@ -72,11 +72,28 @@
               >
 
               <span class="scale">|</span>
+            </small>
 
-              <span v-if="taskLength < minLiterals">
-                {{this.shortWorning}}
+            <small>
+              <span v-if="taskLength < minLiterals && isError">
+                Task mast have min
                 <span class="number">{{minLiterals}}</span> symbols!
-                <i class="material-icons error-icon">error_outline</i>
+                <i class="material-icons error-color">error_outline</i>
+              </span>
+
+              <span v-if="isSaved">
+                Task updated
+                <i class="material-icons done-color">done</i>
+              </span>
+
+              <span v-if="isAdded">
+                Task added
+                <i class="material-icons done-color">done</i>
+              </span>
+
+              <span v-if="isRemoved">
+                Task removed
+                <i class="material-icons error-color">delete</i>
               </span>
             </small>
           </li>
@@ -101,7 +118,9 @@
                     @keypress.enter="onSave($event, task.id)"
                     :ref="'field-'+task.id"
                     :contenteditable="task.updating"
+                    :class="isError ? 'err-color' : 'typing-color' "
                     class="editable-s"
+                    :placeholder="placehilderTask"
                   >
                     {{ task.name }}
                   </div>

@@ -2,10 +2,14 @@ const App = {
   data: () => ({
     title: 'To-do',
     placeholderApp: 'Type to create new task!',
+    placehilderTask: 'Start typing...',
     inputValue: '',
     minLiterals: 6,
-    shortWorning: '',
     taskLength: 6,
+    isSaved: false,
+    isError: false,
+    isRemoved: false,
+    isAdded: false,
     tasks: [
       { name: 'First task', updating: false, checked: true, id: 3231 },
       { name: 'Chuck Norris task', updating: false, checked: false, id: 22323 },
@@ -18,6 +22,10 @@ const App = {
   methods: {
     addTodo() {
       if (this.inputValue.length >= this.minLiterals) {
+        setTimeout(() => {
+          this.isAdded = false
+        }, 3000);
+          this.isAdded = true
         this.tasks.unshift({
           name: this.capitalize(this.inputValue).trim(),
           checked: false,
@@ -28,6 +36,10 @@ const App = {
       }
     },
     removeTodo(i) {
+      setTimeout(() => {
+        this.isRemoved = false
+      }, 3000)
+        this.isRemoved = true
       this.tasks.splice(i, 1)
     },
     renameTodo(i) {
@@ -41,16 +53,24 @@ const App = {
         event.preventDefault()
         event.target.blur()
       }
-      this.taskLength = (this.$refs['field-' + i].outerText).length
-      
-      if(this.taskLength < this.minLiterals) {
-          this.shortWorning = "Task mast have min "
-          event.target.focus()
-      }else if(this.taskLength >= this.minLiterals) {
+      this.taskLength = this.$refs['field-' + i].outerText.length
+
+      if (this.taskLength < this.minLiterals) {
+        setTimeout(() => {
+          this.isError = false
+        }, 3000)
+        this.isError = true
+        event.target.focus()
+      } else if (this.taskLength >= this.minLiterals) {
+        setTimeout(() => {
+          this.isSaved = false
+        }, 3000)
+        this.isSaved = true
+
         this.tasks.filter((a) => a.id === i)[0].updating = false
         this.tasks.filter((a) => a.id === i)[0].name = this.capitalize(
-            this.$refs['field-' + i].outerText
-          ).trim()
+          this.$refs['field-' + i].outerText
+        ).trim()
       }
     },
     moveCursorToEnd(el) {
