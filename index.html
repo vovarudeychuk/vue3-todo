@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -38,7 +38,9 @@
             data-success="right"
           >
             You must have min
-            <span class="number">{{ minLiterals }} </span> simbols in task name!
+            <span class="number">{{ minLiterals }} </span> simbols in task! For
+            now it's
+            <span class="number">{{ minLiterals - inputValue.length }}</span>
           </span>
 
           <a
